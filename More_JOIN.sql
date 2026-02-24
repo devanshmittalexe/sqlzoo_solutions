@@ -72,3 +72,11 @@ and ord=1
 -- Obtain a list, in alphabetical order, of actors who've had at least 15 starring roles.
 select distinct actor.name from actor,casting where actor.id=actorid and actor.id in(select actorid from casting where ord=1 group by actorid having count(*)>=15)
 
+-- 14.
+-- List the films released in the year 1978 ordered by the number of actors in the cast, then by title.
+select title, count(actorid) from movie join casting on movie.id = movieid where yr in (select yr from movie where yr=1978) group by title  order by 2 desc,1
+
+-- 15.
+-- List all the people who have worked with 'Art Garfunkel'.
+select distinct name from actor join casting on actor.id = actorid  where movieid in(select movieid from casting join actor on actorid = actor.id where name='Art Garfunkel') and actor.name!='Art Garfunkel'
+
